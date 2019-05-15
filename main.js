@@ -23,6 +23,4 @@ function createWindow() {
   });
 }
 
-//global.sharedObject = {argv: process.argv}
-
 app.on('ready', createWindow);
