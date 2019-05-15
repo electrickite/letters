@@ -1,0 +1,92 @@
+body {
+  font-family: 'Comic Neue', sans-serif;
+  font-weight: 700;
+  font-size: 1em;
+  line-height: 1.5;
+  font-feature-settings: "kern";
+  overflow:hidden;
+}
+
+@font-face {
+  font-family: 'Comic Neue';
+  src: url('assets/fonts/ComicNeue-Regular.woff2') format('woff2');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Comic Neue';
+  src: url('assets/fonts/ComicNeue-Bold.woff2') format('woff2');
+  font-weight: 700;
+}
+
+.letters-container {
+  width: 100%;
+  text-align: center;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  user-select: none;
+}
+
+.letters-msg {
+  margin: 0.1rem 0.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 1.5rem;
+}
+
+.letters-list {
+  display: inline-block;
+  padding: 0;
+  list-style-type: none;
+}
+
+.letters-list li {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 8rem;
+  margin: 0 2rem;
+  padding: 0.8rem;
+  transition: all 0.4s ease-in;
+  position: relative;
+}
+
+.letters-list.more li {
+  font-size: 6rem;
+}
+.letters-list.most li {
+  font-size: 3.5rem;
+}
+
+.letters-list li:before {
+  content: '';
+  background-color: #daa520;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: scale(0.001, 0.001);
+}
+.letters-list li.clicked:before {
+  animation: effect_click 0.8s ease-out;
+}
+
+@keyframes effect_click {
+  50% {
+    transform: scale(1.5, 1.5);
+    opacity: 0;
+  }
+  99% {
+    transform: scale(0.001, 0.001);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.001, 0.001);
+    opacity: 1;
+  }
+}

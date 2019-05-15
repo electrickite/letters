@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Letters and Numbers
+Comment=Educational letter and number identification game.
+Exec=/opt/letters/node_modules/bin/electron /opt/letters
+Icon=/opt/letters/assets/images/both.png
+Terminal=false
+Categories=Education;
