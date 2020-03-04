@@ -12,6 +12,7 @@ var characterCount = 3;
 var rounds = 0;
 var clicksEnabled = true;
 var speakMessages = true;
+var requestedCharacter;
 
 switch (remote.process.argv.length) {
   case 3:
@@ -63,6 +64,18 @@ if (speakMessages) {
   document.body.appendChild(msg);
 }
 
+document.body.addEventListener('keypress', function(evt) {
+  var pressed = String.fromCharCode(evt.keyCode);
+  if (pressed) {
+    var character = pressed.toUpperCase();
+    var letters = document.querySelectorAll('[data-letter="'+character+'"]');
+    if (letters.length > 0) {
+      letters[0].setAttribute('class', 'clicked');
+    }
+    selectCharacter(character);
+  }
+});
+
 
 function startMenu() {
   var modes = ['letters', 'numbers', 'both'];
@@ -94,7 +107,7 @@ function startMenu() {
 function nextRound() {
   var characters = [];
   var characterPool = buildCharacterPool();
-console.log(characterPool);
+
   if (characterCount < characterPool.length && characterCount < 24) {
     rounds--;
     if (rounds < 1) {
@@ -118,7 +131,7 @@ console.log(characterPool);
 
 
 function startRound(characters) {
-  var requestedCharacter = randomCharacterFrom(characters);
+  requestedCharacter = randomCharacterFrom(characters);
 
   while (list.firstChild) list.removeChild(list.firstChild);
 
@@ -129,26 +142,9 @@ function startRound(characters) {
     letterItem.textContent = characters[i];
 
     letterItem.addEventListener('click', function() {
-      if (!clicksEnabled) return;
-
-      clicksEnabled = false;
       var selectedCharacter = this.getAttribute('data-letter');
       this.setAttribute('class', 'clicked');
-
-      if (selectedCharacter == requestedCharacter) {
-        sayCorrectMessage(function() {
-          setTimeout(function() {
-            nextRound();
-          }, 1500);
-        });
-      } else {
-        sayMessage(incorrectMessage, function() {
-          setTimeout(function() {
-            clicksEnabled = true;
-            sayFindMessageFor(requestedCharacter);
-          }, 1000);
-        });
-      }
+      selectCharacter(selectedCharacter);
     });
 
     list.appendChild(letterItem);
@@ -161,6 +157,26 @@ function startRound(characters) {
 
 function randomColor() {
   return colors[getRandomInt(colors.length)];
+}
+
+function selectCharacter(character) {
+  if (!clicksEnabled) return;
+  clicksEnabled = false;
+
+  if (character == requestedCharacter) {
+    sayCorrectMessage(function() {
+      setTimeout(function() {
+        nextRound();
+      }, 1500);
+    });
+  } else {
+    sayMessage(incorrectMessage, function() {
+      setTimeout(function() {
+        clicksEnabled = true;
+        sayFindMessageFor(requestedCharacter);
+      }, 1000);
+    });
+  }
 }
 
 function randomCharacterFrom(characters) {
